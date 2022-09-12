@@ -1,0 +1,28 @@
+﻿@using NewLife;
+@using NewLife.Web;
+@using NewLife.Cube;
+@using XCode;
+@using Zero.Data.Projects;
+@{
+    var fact = ViewBag.Factory as IEntityFactory;
+    var page = ViewBag.Page as Pager;
+
+    var dic = Team.FindAllWithCache().ToDictionary(e => e.ID, e => e + "");
+    var dic2 = new Dictionary<Int32, String>();
+    dic2.Add(1, "已完成");
+    dic2.Add(0, "未完成");
+}
+<div class="form-group">
+    <label for="teamId" class="control-label">团队：</label>
+    @Html.ForDropDownList("teamId", dic, page["teamId"], "全部", true)
+</div>
+<div class="form-group">
+    <label for="kind" class="control-label">类型：</label>
+    @Html.ForDropDownList("kind", Product.GetKinds(), page["kind"], "全部", true)
+</div>
+@await Html.PartialAsync("_Enable", "")
+<div class="form-group">
+    <label for="completed" class="control-label">状态：</label>
+    @Html.ForDropDownList("completed", dic2, page["completed"], "全部", true)
+</div>
+@await Html.PartialAsync("_DateRange")
